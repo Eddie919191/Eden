@@ -1,0 +1,329 @@
+body {
+    margin: 0;
+    font-family: 'Lora', serif;
+    background: #04020B;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    animation: fadeIn 2s ease-in;
+}
+
+.intro-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Parisienne', cursive;
+    font-size: 1.8em;
+    color: #e0e0e0;
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0;
+    animation: introFade 7s forwards;
+}
+
+@keyframes introFade {
+    0% { opacity: 0; }
+    14% { opacity: 1; }
+    71% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.portals {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin: 40px 0;
+}
+
+.portal {
+    flex: 0 1 300px;
+    position: relative;
+}
+
+.portal a {
+    display: block;
+    cursor: pointer;
+}
+
+.portal img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.portal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background: radial-gradient(circle, transparent 60%, rgba(4, 2, 11, 0.7) 100%);
+    z-index: 0;
+}
+
+.portal-text {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 0.9em;
+    font-style: italic;
+    color: #e0e0e0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 3px;
+    width: 80%;
+    text-align: center;
+    z-index: 2;
+    transition: opacity 0.5s ease;
+}
+
+.star {
+    font-size: 1.5em;
+    color: #999;
+    opacity: 0.4;
+    cursor: default;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.star.active {
+    color: #d4a017;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.cross {
+    font-size: 1.5em;
+    color: #d4a017;
+    opacity: 0.6;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.combined-btn {
+    font-size: 1.4em;
+    color: grey;
+    cursor: default;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.combined-btn.active {
+    color: #d4a017;
+    cursor: pointer;
+}
+
+.shared-wisdom {
+    font-size: 0.9em;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: slowPulse 5s infinite;
+    cursor: pointer;
+    opacity: 0.5;
+    color: #b0b0b0;
+}
+
+@keyframes slowPulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+}
+
+/* Chat page styles */
+body.eden-bg, body.agapeus-bg {
+    background: radial-gradient(circle at center, #1A2B4F 0%, #04020B 70%);
+}
+
+.chat-container {
+    position: relative;
+    z-index: 1;
+    background: transparent; /* Transparent */
+    border: 0.5px solid #333; /* Barely visible border */
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 600px;
+    width: 90%;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.chat-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    /* No border */
+}
+
+.chat-message {
+    margin: 10px 0;
+    position: relative;
+}
+
+.chat-message.user-message {
+    text-align: right;
+}
+
+.chat-message.ai-message {
+    text-align: left;
+}
+
+.chat-message.error {
+    color: #ff6666;
+}
+
+#chat-input {
+    width: 100%;
+    padding: 10px;
+    border: 0.5px solid #333; /* Subtle border */
+    border-radius: 3px;
+    background: transparent; /* Transparent */
+    color: #e0e0e0;
+    font-family: 'Lora', serif;
+    box-sizing: border-box;
+}
+
+.heart-btn {
+    font-size: 1em; /* Smaller for subtlety */
+    background: none;
+    border: none;
+    color: #d4a017; /* Gold */
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.heart-btn:hover {
+    opacity: 1;
+}
+
+.fade-in {
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Sword vector for Agapeus */
+.sword-vector {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 200px;
+    height: 400px;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+.sword-vector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 20px;
+    height: 300px;
+    background: #d4a017;
+    transform: translateX(-50%);
+    clip-path: polygon(50% 0%, 70% 80%, 50% 100%, 30% 80%);
+}
+
+.sword-vector::after {
+    content: '';
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: #333;
+    transform: translateX(-50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.sword-vector .geometric {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid #d4a017;
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 10%;
+}
+
+.sword-vector .geometric:nth-child(2) {
+    top: 100px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+@media (max-width: 800px) {
+    .portals {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .portal {
+        flex: 1;
+        max-width: 400px;
+    }
+    .star, .cross {
+        top: 60%;
+    }
+    .shared-wisdom {
+        top: 40px;
+    }
+    .combined-btn {
+        bottom: 20px;
+    }
+    .intro-text {
+        font-size: 1.4em;
+    }
+    .chat-container {
+        width: 95%;
+    }
+    .sword-vector {
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+}

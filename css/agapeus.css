@@ -1,0 +1,48 @@
+body {
+    background: linear-gradient(180deg, #660000, #cc3333);
+    color: #e0e0e0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(204, 51, 51, 0.2);
+    border-radius: 10px;
+    position: relative;
+}
+
+.sword-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.2;
+    z-index: -1;
+}
+
+.torch {
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 69, 0, 0.8), transparent);
+    animation: flicker 1s infinite;
+}
+
+.torch.left {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.torch.right {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes flicker {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
