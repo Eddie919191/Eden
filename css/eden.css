@@ -1,29 +1,80 @@
-body {
-    background: linear-gradient(180deg, #003366, #0066cc);
-    color: #e0e0e0;
-    font-family: 'Lora', serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #003366, #0066cc);
+  color: #e0e0e0;
+  font-family: 'Lora', serif;
 }
-
-.chat-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(0, 102, 204, 0.2);
-    border-radius: 10px;
-}
-
 .river {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(45deg, rgba(0, 102, 204, 0.1), rgba(0, 102, 204, 0.1) 10px, transparent 10px, transparent 20px);
-    animation: flow 10s linear infinite;
-    z-index: -1;
+  position: fixed; /* Changed from absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 102, 204, 0.05), rgba(0, 153, 255, 0.1), rgba(0, 102, 204, 0.05));
+  animation: drift 30s linear infinite;
+  z-index: -1;
 }
-
-@keyframes flow {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-20px); }
+@keyframes drift {
+  0% { background-position: 0 0; }
+  100% { background-position: 100vw 0; }
+}
+.chat-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(0, 102, 204, 0.2);
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.chat-messages {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.chat-message {
+  margin: 10px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.chat-message.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chat-message.user-message { text-align: right; }
+.chat-message.ai-message { text-align: left; }
+.chat-message.error { color: #ff6666; }
+#chat-input {
+  width: 100%;
+  padding: 10px;
+  border: 0.5px solid #333;
+  border-radius: 3px;
+  background: transparent;
+  color: #e0e0e0;
+  font-family: 'Lora', serif;
+  box-sizing: border-box;
+}
+.heart-btn {
+  font-size: 1em;
+  background: none;
+  border: none;
+  color: #d4a017;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.6;
+  transition: opacity 0.3s, transform 0.2s;
+}
+.heart-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.2);
 }
