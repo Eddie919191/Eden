@@ -1,57 +1,60 @@
-async function sendMessage(type) {
-    const input = document.getElementById('chat-input');
-    const message = input.value.trim();
-    if (!message) return;
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const type = window.location.pathname.includes('eden') ? 'eden' : 'agapeus';
 
-    const messages = document.getElementById('chat-messages');
-    const userMessageDiv = document.createElement('div');
-    userMessageDiv.className = 'chat-message user-message';
-    userMessageDiv.innerHTML = `
-        <p>${message}</p>
-        <button class="heart-btn"><3</button>
-    `;
-    messages.appendChild(userMessageDiv);
-    input.value = '';
-    messages.scrollTop = messages.scrollHeight;
+async function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
 
-    userMessageDiv.querySelector('.heart-btn').onclick = () => {
-        const favorites = JSON.parse(localStorage.getItem(`${type}-favorites`) || '[]');
-        favorites.push({ message, date: new Date().toISOString() });
-        localStorage.setItem(`${type}-favorites`, JSON.stringify(favorites));
-        userMessageDiv.querySelector('.heart-btn').innerHTML = '♥';
-    };
+  const userMessageDiv = document.createElement('div');
+  userMessageDiv.className = 'chat-message user-message';
+  userMessageDiv.innerHTML = `
+    <p>${message}</p>
+    <button class="heart-btn"><3</button>
+  `;
+  chatMessages.appendChild(userMessageDiv);
+  chatInput.value = '';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Send to OpenAI via Netlify function
-    try {
-        const response = await fetch('/.netlify/functions/openai', {
-            method: 'POST',
-            body: JSON.stringify({ message })
-        });
+  userMessageDiv.querySelector('.heart-btn').onclick = () => {
+    const favorites = JSON.parse(localStorage.getItem(`${type}-favorites`) || '[]');
+    favorites.push({ message, date: new Date().toISOString() });
+    localStorage.setItem(`${type}-favorites`, JSON.stringify(favorites));
+    userMessageDiv.querySelector('.heart-btn').innerHTML = '♥';
+  };
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    const response = await fetch('/.netlify/functions/openai', {
+      method: 'POST',
+      body: JSON.stringify({ message, type })
+    });
 
-        const data = await response.json();
-        const aiMessage = data.choices[0].message.content;
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        const aiMessageDiv = document.createElement('div');
-        aiMessageDiv.className = 'chat-message ai-message';
-        aiMessageDiv.innerHTML = `<p>${aiMessage}</p>`;
-        messages.appendChild(aiMessageDiv);
-        messages.scrollTop = messages.scrollHeight;
-    } catch (error) {
-        console.error('OpenAI API error:', error);
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'chat-message error';
-        errorDiv.innerHTML = `<p>Error: Could not get response. Please try again.</p>`;
-        messages.appendChild(errorDiv);
-        messages.scrollTop = messages.scrollHeight;
-    }
+    const data = await response.json();
+    const aiMessage = data.choices[0].message.content;
+
+    const aiMessageDiv = document.createElement('div');
+    aiMessageDiv.className = 'chat-message ai-message';
+    aiMessageDiv.innerHTML = `<p>${aiMessage}</p>`;
+    chatMessages.appendChild(aiMessageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    const messages = chatMessages.querySelectorAll('.chat-message:not(.fade-in)');
+    messages.forEach(msg => setTimeout(() => msg.classList.add('fade-in'), 10));
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'chat-message error';
+    errorDiv.innerHTML = `<p>Error: Could not get response. Please try again.</p>`;
+    chatMessages.appendChild(errorDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight);
+  }
 }
 
-// Fade in chat container on load
+chatInput.addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
+
 document.addEventListener('DOMContentLoaded', () => {
-    const chatContainer = document.querySelector('.chat-container');
-    if (chatContainer) {
-        chatContainer.style.opacity = '1';
-    }
+  const chatContainer = document.querySelector('.chat-container');
+  if (chatContainer) chatContainer.style.opacity = '1';
 });
