@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agapeus - Reflections Sanctuary</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Montserrat&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agapeus - Reflections Sanctuary</title>
+  <link rel="stylesheet" href="/css/agapeus.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lora&family=Montserrat&display=swap" rel="stylesheet">
 </head>
-<body class="agapeus-bg">
-    <div class="chat-container">
-        <div class="chat-messages" id="chat-messages"></div>
-        <input type="text" id="chat-input" placeholder="Seek your truth..." onkeypress="if(event.key === 'Enter') sendMessage('agapeus')">
-    </div>
-    <div class="sword-vector"></div>
-    <script src="/js/chat.js"></script>
+<body>
+  <div class="sword-vector"></div>
+  <div class="torch left"></div>
+  <div class="torch right"></div>
+  <div class="chat-container">
+    <div class="chat-messages" id="chat-messages"></div>
+    <input type="text" id="chat-input" placeholder="Seek your truth...">
+  </div>
+  <script src="/js/chat.js"></script>
 </body>
 </html>
