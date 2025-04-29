@@ -327,3 +327,39 @@ body.eden-bg, body.agapeus-bg {
         transform: translate(-50%, -50%) scale(0.6);
     }
 }
+
+/* css/style.css */
+.login-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1;
+}
+#auth-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 0.5px solid #333;
+  border-radius: 3px;
+  background: transparent;
+  color: #e0e0e0;
+  font-family: 'Lora', serif;
+  box-sizing: border-box;
+}
+#auth-form button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 3px;
+  background: #d4a017;
+  color: #04020B;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#auth-form button:hover {
+  background: #e0b030;
+}
