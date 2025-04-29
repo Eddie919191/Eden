@@ -1,4 +1,35 @@
-// js/chat.js
+// Add at top
+const emotions = ['Joy', 'Grief', 'Clarity', 'Fear', 'Love', 'Purpose'];
+const emotionKeywords = {
+  Joy: ['happy', 'joyful', 'delight', 'peaceful'],
+  Grief: ['sad', 'loss', 'grieve', 'mourn'],
+  Clarity: ['clear', 'understand', 'insight', 'realize'],
+  Fear: ['afraid', 'scared', 'anxious', 'worry'],
+  Love: ['love', 'care', 'cherish', 'heart'],
+  Purpose: ['purpose', 'meaning', 'destiny', 'calling']
+};
+
+// In sendMessage, after AI response
+const aiMessage = data.choices[0].message.content;
+const detectedEmotion = emotions.find(emotion =>
+  emotionKeywords[emotion].some(keyword => 
+    aiMessage.toLowerCase().includes(keyword)
+  )
+);
+
+if (detectedEmotion) {
+  const share = confirm(`A moment of ${detectedEmotion} was felt. Share this with the Sanctuary?`);
+  if (share) {
+    await db.collection('shared_moments').add({
+      userId,
+      type,
+      emotion: detectedEmotion,
+      question: message,
+      response: aiMessage,
+      timestamp
+    });
+  }
+}
 firebase.initializeApp({
   apiKey: "AIzaSyC2TvTe6Y-WLrKKeikJ111EeHe2ZdGvK2I",
   authDomain: "reflections-92fbc.firebaseapp.com",
