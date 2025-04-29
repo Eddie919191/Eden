@@ -1,3 +1,4 @@
+// js/chat.js
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
 const type = window.location.pathname.includes('eden') ? 'eden' : 'agapeus';
@@ -56,5 +57,8 @@ chatInput.addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatContainer = document.querySelector('.chat-container');
-  if (chatContainer) chatContainer.style.opacity = '1';
+  if (chatContainer) {
+    chatContainer.style.opacity = '1';
+    chatContainer.style.display = 'block'; // Ensure visible
+  }
 });
