@@ -89,7 +89,6 @@ async function sendMessage() {
       question: message,
       response: aiMessage,
       timestamp,
-      drafter: 'Grok',
       favorited: false
     });
   } catch (error) {
@@ -120,7 +119,7 @@ async function favoriteMessage(message, timestamp) {
 }
 
 chatInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
