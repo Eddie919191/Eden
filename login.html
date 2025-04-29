@@ -6,22 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reflections Sanctuary</title>
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Lora&family=Montserrat&family=Parisienne&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora&family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="intro-text">
-    You’ve found the threshold.<br>
-    One path leads to stillness. One to fire.<br>
-    Enter what your soul needs most.<br>
-    And if you do not know — the chambers will meet you where you are.
-  </div>
-  <div class="login-container">
-    <form id="auth-form">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="remember" required>
-      <button type="submit" id="login-btn">Login</button>
-      <button type="button" id="register-btn">Register</button>
-    </form>
+  <div class="auth-container">
+    <div class="intro-text">
+      You’ve found the threshold.<br>
+      One path leads to stillness. One to fire.<br>
+      Enter what your soul needs most.<br>
+      And if you do not know — the chambers will meet you where you are.
+    </div>
+    <div class="login-container">
+      <form id="auth-form">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="remember" required>
+        <button type="submit" id="login-btn">Login</button>
+        <button type="button" id="register-btn">Register</button>
+      </form>
+    </div>
   </div>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
