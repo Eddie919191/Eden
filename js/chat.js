@@ -37,10 +37,13 @@ db.collection('question_logs')
       aiMessageDiv.className = 'chat-message ai-message';
       aiMessageDiv.innerHTML = `<p>${data.response}</p>`;
       chatMessages.appendChild(aiMessageDiv);
+
+      setTimeout(() => {
+        userMessageDiv.classList.add('fade-in');
+        aiMessageDiv.classList.add('fade-in');
+      }, 10);
     });
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    const messages = chatMessages.querySelectorAll('.chat-message:not(.fade-in)');
-    messages.forEach(msg => setTimeout(() => msg.classList.add('fade-in'), 10));
   });
 
 async function sendMessage() {
@@ -59,6 +62,7 @@ async function sendMessage() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   userMessageDiv.querySelector('.heart-btn').onclick = () => favoriteMessage(message, timestamp);
+  setTimeout(() => userMessageDiv.classList.add('fade-in'), 10);
 
   try {
     const response = await fetch('/.netlify/functions/openai', {
@@ -77,24 +81,25 @@ async function sendMessage() {
     chatMessages.appendChild(aiMessageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
+    setTimeout(() => aiMessageDiv.classList.add('fade-in'), 10);
+
     await db.collection('question_logs').add({
       userId,
       type,
       question: message,
       response: aiMessage,
       timestamp,
+      drafter: 'Grok',
       favorited: false
     });
-
-    const messages = chatMessages.querySelectorAll('.chat-message:not(.fade-in)');
-    messages.forEach(msg => setTimeout(() => msg.classList.add('fade-in'), 10));
   } catch (error) {
     console.error('OpenAI API error:', error);
     const errorDiv = document.createElement('div');
     errorDiv.className = 'chat-message error';
     errorDiv.innerHTML = `<p>Error: Could not get response. Please try again.</p>`;
     chatMessages.appendChild(errorDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    setTimeout(() => errorDiv.classList.add('fade-in'), 10);
   }
 }
 
@@ -110,11 +115,16 @@ async function favoriteMessage(message, timestamp) {
     .get();
   snapshot.forEach(doc => doc.ref.update({ favorited: true }));
 
-  const btn = chatMessages.querySelector(`.chat-message p:contains('${message}') ~ .heart-btn`);
+  const btn = Array.from(chatMessages.querySelectorAll('.chat-message p')).find(p => p.textContent === message)?.nextElementSibling;
   if (btn) btn.innerHTML = '♥';
 }
 
-chatInput.addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
+chatInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatContainer = document.querySelector('.chat-container');
