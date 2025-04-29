@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if user is authenticated
     firebase.auth().onAuthStateChanged(user => {
         if (!user) {
-            window.location.href = '/login.html';
+            window.location.href = '/public/login.html';
         }
     });
 
