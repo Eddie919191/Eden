@@ -9,15 +9,21 @@ body {
     align-items: center;
     position: relative;
 }
-
+.welcome-text {
+  font-family: 'Lora', serif;
+  font-size: 1.8em;
+  color: #e0e0e0;
+  text-align: center;
+  margin-top: 20px;
+  opacity: 1;
+}
 .container {
-    text-align: center;
-    padding: 20px;
-    max-width: 1000px;
-    width: 100%;
-    position: relative;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+  text-align: center;
+  padding: 20px;
+  max-width: 1000px;
+  width: 100%;
+  position: relative;
+  opacity: 1; /* No fade */
 }
 
 h1, h2, h3 {
