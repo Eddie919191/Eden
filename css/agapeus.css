@@ -1,3 +1,4 @@
+/* css/agapeus.css */
 html, body {
   margin: 0;
   padding: 0;
@@ -38,7 +39,7 @@ html, body {
   border-radius: 10px;
   position: relative;
   z-index: 1;
-  opacity: 0;
+  opacity: 1; /* Ensure visible */
   transition: opacity 1s ease;
 }
 .chat-messages {
