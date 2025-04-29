@@ -42,24 +42,38 @@ function drawStars() {
 
 db.collection('shared_moments')
   .where('userId', '==', userId)
-  .onSnapshot(snapshot => {
-    const momentsDiv = document.getElementById('moments');
-    momentsDiv.innerHTML = '';
-    stars = [];
+snapshot.forEach(doc => {
+  const data = doc.data();
+  momentsDiv.innerHTML += `
+    <div class="moment">
+      <p><strong>${data.emotion}</strong>: ${data.question} -> ${data.response}</p>
+    </div>
+  `;
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: 3 + data.candleCount * 0.5, // Brighter with more messages
+    color: emotionColors[data.emotion],
+    opacity: 0.8
+  });
+});
+
+// Add candle count
+db.collection('question_logs')
+  .where('userId', '==', userId)
+  .get()
+  .then(snapshot => {
+    const candleCount = snapshot.size;
     snapshot.forEach(doc => {
       const data = doc.data();
-      momentsDiv.innerHTML += `
-        <div class="moment">
-          <p><strong>${data.emotion}</strong>: ${data.question} -> ${data.response}</p>
-        </div>
-      `;
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: 3,
-        color: emotionColors[data.emotion],
-        opacity: 0.8
-      });
+      db.collection('shared_moments')
+        .where('question', '==', data.question)
+        .where('timestamp', '==', data.timestamp)
+        .get()
+        .then(momentSnapshot => {
+          momentSnapshot.forEach(momentDoc => {
+            momentDoc.ref.update({ candleCount });
+          });
+        });
     });
-    drawStars();
   });
