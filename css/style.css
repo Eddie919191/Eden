@@ -51,7 +51,20 @@ h1, h2, h3 {
     71% { opacity: 1; }
     100% { opacity: 0; }
 }
-
+/* css/style.css */
+.confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #e0e0e0;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 100;
+  font-family: 'Lora', serif;
+  text-align: center;
+}
 .portals {
     display: flex;
     justify-content: center;
