@@ -1,11 +1,11 @@
-// Firebase configuration (replace with your config from Firebase Console)
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyC2TvTe6Y-WLrKKeikJ111EeHe2ZdGvK2I",
+  authDomain: "reflections-92fbc.firebaseapp.com",
+  projectId: "reflections-92fbc",
+  storageBucket: "reflections-92fbc.firebasestorage.app",
+  messagingSenderId: "485903066751",
+  appId: "1:485903066751:web:73e26cbacdb2154a4b014a"
 };
 
 // Initialize Firebase
