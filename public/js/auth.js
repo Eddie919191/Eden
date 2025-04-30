@@ -1,6 +1,11 @@
-// Firebase configuration (placeholder, to be set in next session)
+// Firebase configuration (replace with your config from Firebase Console)
 const firebaseConfig = {
-    // Will be provided during Firebase setup
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
@@ -17,12 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        // Set persistence based on "remember me"
+        const persistence = remember.checked
+            ? firebase.auth.Auth.Persistence.LOCAL
+            : firebase.auth.Auth.Persistence.SESSION;
+
+        firebase.auth().setPersistence(persistence)
             .then(() => {
-                if (remember.checked) {
-                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-                }
-                window.location.href = '/index.html';
+                return firebase.auth().signInWithEmailAndPassword(email, password);
+            })
+            .then(() => {
+                window.location.href = '/public/index.html';
             })
             .catch(error => {
                 alert('Login failed: ' + error.message);
@@ -33,12 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        const persistence = remember.checked
+            ? firebase.auth.Auth.Persistence.LOCAL
+            : firebase.auth.Auth.Persistence.SESSION;
+
+        firebase.auth().setPersistence(persistence)
             .then(() => {
-                if (remember.checked) {
-                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-                }
-                window.location.href = '/index.html';
+                return firebase.auth().createUserWithEmailAndPassword(email, password);
+            })
+            .then(() => {
+                window.location.href = '/public/index.html';
             })
             .catch(error => {
                 alert('Registration failed: ' + error.message);
