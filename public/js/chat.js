@@ -1,11 +1,11 @@
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC2TvTe6Y-WLrKKeikJ111EeHe2ZdGvK2I",
-  authDomain: "reflections-92fbc.firebaseapp.com",
-  projectId: "reflections-92fbc",
-  storageBucket: "reflections-92fbc.firebasestorage.app",
-  messagingSenderId: "485903066751",
-  appId: "1:485903066751:web:73e26cbacdb2154a4b014a"
+    apiKey: "AIzaSyC2TvTe6Y-WLrKKeikJ111EeHe2ZdGvK2I",
+    authDomain: "reflections-92fbc.firebaseapp.com",
+    projectId: "reflections-92fbc",
+    storageBucket: "reflections-92fbc.firebasestorage.app",
+    messagingSenderId: "485903066751",
+    appId: "1:485903066751:web:73e26cbacdb2154a4b014a"
 };
 
 // Initialize Firebase
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadChatHistory(userId, type);
 
         const input = document.getElementById('chat-input');
-        // Improved keypress handling
+        // Robust keypress handling
         input.addEventListener('keydown', e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -38,24 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
             input.style.height = 'auto';
             input.style.height = `${input.scrollHeight}px`;
         });
+
+        // Debug: Log keypress for testing
+        input.addEventListener('keydown', e => {
+            console.log('Key pressed:', e.key, 'Shift:', e.shiftKey);
+        });
     });
 });
 
 async function loadChatHistory(userId, type) {
     const messages = document.getElementById('chat-messages');
     messages.innerHTML = ''; // Clear existing messages
-    const snapshot = await db.collection('chats')
-        .doc(userId)
-        .collection(type)
-        .orderBy('timestamp')
-        .get();
+    try {
+        const snapshot = await db.collection('chats')
+            .doc(userId)
+            .collection(type)
+            .orderBy('timestamp')
+            .get();
 
-    snapshot.forEach(doc => {
-        const data = doc.data();
-        appendMessage(data.message, data.sender, data.timestamp);
-    });
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            appendMessage(data.message, data.sender, data.timestamp);
+        });
 
-    messages.scrollTop = messages.scrollHeight;
+        messages.scrollTop = messages.scrollHeight;
+    } catch (error) {
+        console.error('Error loading chat history:', error);
+        appendMessage('Error loading history.', 'ai', new Date().toISOString());
+    }
 }
 
 async function sendMessage(userId, type) {
@@ -65,17 +75,17 @@ async function sendMessage(userId, type) {
 
     const timestamp = new Date().toISOString();
     appendMessage(message, 'user', timestamp);
-    await db.collection('chats')
-        .doc(userId)
-        .collection(type)
-        .add({ message, sender: 'user', timestamp });
-
-    input.value = '';
-    input.style.height = 'auto';
-    document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-
-    // Fetch AI response
     try {
+        await db.collection('chats')
+            .doc(userId)
+            .collection(type)
+            .add({ message, sender: 'user', timestamp });
+
+        input.value = '';
+        input.style.height = 'auto';
+        document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+
+        // Fetch AI response
         const history = await getChatHistory(userId, type);
         const response = await fetch('/.netlify/functions/openai', {
             method: 'POST',
@@ -100,21 +110,27 @@ async function sendMessage(userId, type) {
 
         document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
     } catch (error) {
+        console.error('Error sending message:', error);
         appendMessage('Error: Could not get response.', 'ai', new Date().toISOString());
     }
 }
 
 async function getChatHistory(userId, type) {
-    const snapshot = await db.collection('chats')
-        .doc(userId)
-        .collection(type)
-        .orderBy('timestamp')
-        .get();
+    try {
+        const snapshot = await db.collection('chats')
+            .doc(userId)
+            .collection(type)
+            .orderBy('timestamp')
+            .get();
 
-    return snapshot.docs.map(doc => {
-        const data = doc.data();
-        return { role: data.sender === 'user' ? 'user' : 'assistant', content: data.message };
-    });
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            return { role: data.sender === 'user' ? 'user' : 'assistant', content: data.message };
+        });
+    } catch (error) {
+        console.error('Error fetching history:', error);
+        return [];
+    }
 }
 
 function getSacredInstructions(type) {
