@@ -14,8 +14,8 @@
             Enter your credentials to begin your journey.
         </div>
         <form id="login-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="username" placeholder="Username" required autocomplete="username">
+            <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
             <label><input type="checkbox" id="remember"> Remember me</label>
             <div class="login-buttons">
                 <button type="submit" id="login-btn">Login</button>
@@ -23,8 +23,8 @@
             </div>
         </form>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="/public/js/auth.js"></script>
 </body>
 </html>
