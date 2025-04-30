@@ -1,6 +1,11 @@
-// Firebase configuration (placeholder, to be set in next session)
+// Firebase configuration (replace with your config from Firebase Console)
 const firebaseConfig = {
-    // Will be provided during Firebase setup
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
@@ -11,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check authentication
     firebase.auth().onAuthStateChanged(user => {
         if (!user) {
-            window.location.href = '/login.html';
+            window.location.href = '/public/login.html';
             return;
         }
 
@@ -20,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadChatHistory(userId, type);
 
         const input = document.getElementById('chat-input');
-        input.addEventListener('keypress', e => {
+        // Improved keypress handling
+        input.addEventListener('keydown', e => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage(userId, type);
@@ -37,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadChatHistory(userId, type) {
     const messages = document.getElementById('chat-messages');
+    messages.innerHTML = ''; // Clear existing messages
     const snapshot = await db.collection('chats')
         .doc(userId)
         .collection(type)
